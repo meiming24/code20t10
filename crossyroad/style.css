@@ -1,0 +1,131 @@
+@import url("https://fonts.googleapis.com/css?family=Press+Start+2P");
+
+:root {
+  --ui-pad: clamp(8px, 2vw, 16px);
+  --btn-size: clamp(48px, 12vw, 72px);
+  /* comfortable touch target */
+  --btn-gap: clamp(8px, 2vw, 14px);
+  --shadow: 3px 5px 0 rgba(0, 0, 0, .75);
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+  /* avoid scrolling while playing */
+  background: #eaf6b3;
+  /* light grassy backdrop under alpha renderer */
+  font-family: "Press Start 2P", cursive;
+  font-size: clamp(14px, 2.4vw, 20px);
+  color: #fff;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: none;
+  /* stop swipe-to-scroll on mobile */
+}
+
+/* Counter (top-right, safe-area aware) */
+#counter {
+  position: fixed;
+  top: calc(env(safe-area-inset-top, 0) + var(--ui-pad));
+  right: calc(env(safe-area-inset-right, 0) + var(--ui-pad));
+  z-index: 10;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, .25);
+}
+
+/* End overlay */
+#end {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  visibility: hidden;
+  z-index: 20;
+  backdrop-filter: blur(2px);
+}
+
+button {
+  outline: none;
+  cursor: pointer;
+  border: none;
+  box-shadow: var(--shadow);
+}
+
+#end button {
+  background-color: #ff4757;
+  padding: clamp(12px, 2.6vw, 20px) clamp(28px, 6vw, 50px);
+  font-family: inherit;
+  font-size: inherit;
+  border-radius: 10px;
+  color: #fff;
+}
+
+/* On-screen d-pad */
+#controlls {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding-bottom: calc(env(safe-area-inset-bottom, 0) + var(--ui-pad));
+  padding-top: var(--ui-pad);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 15;
+  pointer-events: none;
+}
+
+#controlls>div {
+  pointer-events: auto;
+  display: grid;
+  grid-template-columns: repeat(3, var(--btn-size));
+  grid-template-rows: var(--btn-size) var(--btn-size);
+  grid-template-areas:
+    "up    up    up"
+    "left  down  right";
+  grid-column-gap: var(--btn-gap);
+  grid-row-gap: var(--btn-gap);
+}
+
+#controlls button {
+  width: var(--btn-size);
+  height: var(--btn-size);
+  background: #fff;
+  border: 1px solid #d0d0d0;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+}
+
+#controlls button:first-of-type {
+  grid-column: 1 / -1;
+  /* the UP button spans all 3 columns */
+}
+
+/* Larger SVG arrows on small screens */
+#controlls svg {
+  width: 60%;
+  height: 60%;
+}
+
+#forward {
+  grid-area: up;
+  justify-self: center;
+}
+
+/* centered above */
+#left {
+  grid-area: left;
+}
+
+#backward {
+  grid-area: down;
+}
+
+#right {
+  grid-area: right;
+}
